@@ -1,15 +1,31 @@
 const pool = require('../config/database');
 
+const LADY_COLUMNS =
+    'id, aadhaar, name, marital_status, father_name, husband_name, mobile, address, created_at';
+
 function maskAadhaar(aadhaar) {
     if (!aadhaar || aadhaar.length < 4) return aadhaar;
     const last4 = aadhaar.slice(-4);
     return `XXXX-XXXX-${last4}`;
 }
 
+function validateFamilyInfo({ maritalStatus, fatherName, husbandName }) {
+    if (maritalStatus !== 'MARRIED' && maritalStatus !== 'UNMARRIED') {
+        return 'Marital status must be either MARRIED or UNMARRIED';
+    }
+    if (maritalStatus === 'MARRIED' && !husbandName) {
+        return "Husband's name is required for a married lady";
+    }
+    if (maritalStatus === 'UNMARRIED' && !fatherName) {
+        return "Father's name is required for an unmarried lady";
+    }
+    return null;
+}
+
 async function listLadies(req, res) {
     const { search } = req.query;
 
-    let sql = 'SELECT id, aadhaar, name, mobile, address, created_at FROM ladies';
+    let sql = `SELECT ${LADY_COLUMNS} FROM ladies`;
     const params = [];
 
     if (search) {
@@ -30,10 +46,7 @@ async function searchByAadhaar(req, res) {
         return res.status(400).json({ message: 'aadhaar query parameter is required' });
     }
 
-    const [rows] = await pool.query(
-        'SELECT id, aadhaar, name, mobile, address FROM ladies WHERE aadhaar = ?',
-        [aadhaar]
-    );
+    const [rows] = await pool.query(`SELECT ${LADY_COLUMNS} FROM ladies WHERE aadhaar = ?`, [aadhaar]);
 
     const lady = rows[0];
     if (!lady) {
@@ -46,10 +59,7 @@ async function searchByAadhaar(req, res) {
 async function getLady(req, res) {
     const { id } = req.params;
 
-    const [ladyRows] = await pool.query(
-        'SELECT id, aadhaar, name, mobile, address, created_at FROM ladies WHERE id = ?',
-        [id]
-    );
+    const [ladyRows] = await pool.query(`SELECT ${LADY_COLUMNS} FROM ladies WHERE id = ?`, [id]);
     const lady = ladyRows[0];
     if (!lady) {
         return res.status(404).json({ message: 'Lady not found' });
@@ -75,10 +85,15 @@ async function getLady(req, res) {
 }
 
 async function createLady(req, res) {
-    const { aadhaar, name, mobile, address } = req.body;
+    const { aadhaar, name, maritalStatus, fatherName, husbandName, mobile, address } = req.body;
 
     if (!aadhaar || !name) {
         return res.status(400).json({ message: 'Aadhaar and name are required' });
+    }
+
+    const familyInfoError = validateFamilyInfo({ maritalStatus, fatherName, husbandName });
+    if (familyInfoError) {
+        return res.status(400).json({ message: familyInfoError });
     }
 
     const [existing] = await pool.query('SELECT id FROM ladies WHERE aadhaar = ?', [aadhaar]);
@@ -86,15 +101,22 @@ async function createLady(req, res) {
         return res.status(409).json({ message: 'This lady is already registered.' });
     }
 
+    const husbandNameToStore = maritalStatus === 'MARRIED' ? husbandName : null;
+    const fatherNameToStore = maritalStatus === 'UNMARRIED' ? fatherName : null;
+
     const [result] = await pool.query(
-        'INSERT INTO ladies (aadhaar, name, mobile, address) VALUES (?, ?, ?, ?)',
-        [aadhaar, name, mobile || null, address || null]
+        `INSERT INTO ladies (aadhaar, name, marital_status, father_name, husband_name, mobile, address)
+         VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        [aadhaar, name, maritalStatus, fatherNameToStore, husbandNameToStore, mobile || null, address || null]
     );
 
     res.status(201).json({
         id: result.insertId,
         aadhaar,
         name,
+        maritalStatus,
+        fatherName: fatherNameToStore,
+        husbandName: husbandNameToStore,
         mobile: mobile || null,
         address: address || null,
     });
@@ -102,7 +124,7 @@ async function createLady(req, res) {
 
 async function updateLady(req, res) {
     const { id } = req.params;
-    const { name, mobile, address } = req.body;
+    const { name, maritalStatus, fatherName, husbandName, mobile, address } = req.body;
 
     const [existing] = await pool.query('SELECT id FROM ladies WHERE id = ?', [id]);
     if (existing.length === 0) {
@@ -113,12 +135,30 @@ async function updateLady(req, res) {
         return res.status(400).json({ message: 'Name is required' });
     }
 
+    const familyInfoError = validateFamilyInfo({ maritalStatus, fatherName, husbandName });
+    if (familyInfoError) {
+        return res.status(400).json({ message: familyInfoError });
+    }
+
+    const husbandNameToStore = maritalStatus === 'MARRIED' ? husbandName : null;
+    const fatherNameToStore = maritalStatus === 'UNMARRIED' ? fatherName : null;
+
     await pool.query(
-        'UPDATE ladies SET name = ?, mobile = ?, address = ? WHERE id = ?',
-        [name, mobile || null, address || null, id]
+        `UPDATE ladies
+         SET name = ?, marital_status = ?, father_name = ?, husband_name = ?, mobile = ?, address = ?
+         WHERE id = ?`,
+        [name, maritalStatus, fatherNameToStore, husbandNameToStore, mobile || null, address || null, id]
     );
 
-    res.json({ id: Number(id), name, mobile: mobile || null, address: address || null });
+    res.json({
+        id: Number(id),
+        name,
+        maritalStatus,
+        fatherName: fatherNameToStore,
+        husbandName: husbandNameToStore,
+        mobile: mobile || null,
+        address: address || null,
+    });
 }
 
 module.exports = { listLadies, searchByAadhaar, getLady, createLady, updateLady };

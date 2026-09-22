@@ -8,6 +8,9 @@ export default function AddLadyPage() {
   const [form, setForm] = useState({
     aadhaar: searchParams.get('aadhaar') || '',
     name: '',
+    maritalStatus: '',
+    fatherName: '',
+    husbandName: '',
     mobile: '',
     address: '',
   });
@@ -66,6 +69,60 @@ export default function AddLadyPage() {
             className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
           />
         </div>
+
+        <div>
+          <label className="block text-sm font-medium text-neutral-700 mb-1.5">Marital Status *</label>
+          <div className="flex gap-4">
+            <label className="flex items-center gap-2 text-sm text-neutral-700">
+              <input
+                type="radio"
+                name="maritalStatus"
+                value="UNMARRIED"
+                checked={form.maritalStatus === 'UNMARRIED'}
+                onChange={update('maritalStatus')}
+                required
+                className="accent-brand-600"
+              />
+              Unmarried
+            </label>
+            <label className="flex items-center gap-2 text-sm text-neutral-700">
+              <input
+                type="radio"
+                name="maritalStatus"
+                value="MARRIED"
+                checked={form.maritalStatus === 'MARRIED'}
+                onChange={update('maritalStatus')}
+                required
+                className="accent-brand-600"
+              />
+              Married
+            </label>
+          </div>
+        </div>
+
+        {form.maritalStatus === 'UNMARRIED' && (
+          <div>
+            <label className="block text-sm font-medium text-neutral-700 mb-1">Father's Name *</label>
+            <input
+              required
+              value={form.fatherName}
+              onChange={update('fatherName')}
+              className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+            />
+          </div>
+        )}
+
+        {form.maritalStatus === 'MARRIED' && (
+          <div>
+            <label className="block text-sm font-medium text-neutral-700 mb-1">Husband's Name *</label>
+            <input
+              required
+              value={form.husbandName}
+              onChange={update('husbandName')}
+              className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+            />
+          </div>
+        )}
 
         <div>
           <label className="block text-sm font-medium text-neutral-700 mb-1">Mobile</label>

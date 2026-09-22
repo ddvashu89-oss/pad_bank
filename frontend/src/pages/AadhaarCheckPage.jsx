@@ -100,6 +100,20 @@ export default function AadhaarCheckPage() {
             </div>
             <dl className="mt-4 grid grid-cols-2 gap-4 text-sm">
               <div>
+                <dt className="text-neutral-500">Marital Status</dt>
+                <dd className="text-neutral-900 mt-0.5">
+                  {lady.marital_status === 'MARRIED' ? 'Married' : lady.marital_status === 'UNMARRIED' ? 'Unmarried' : '—'}
+                </dd>
+              </div>
+              <div>
+                <dt className="text-neutral-500">
+                  {lady.marital_status === 'MARRIED' ? "Husband's Name" : "Father's Name"}
+                </dt>
+                <dd className="text-neutral-900 mt-0.5">
+                  {lady.marital_status === 'MARRIED' ? lady.husband_name || '—' : lady.father_name || '—'}
+                </dd>
+              </div>
+              <div>
                 <dt className="text-neutral-500">Mobile</dt>
                 <dd className="text-neutral-900 mt-0.5">{lady.mobile || '—'}</dd>
               </div>

@@ -9,14 +9,28 @@ export default function LadyProfilePage() {
   const [lady, setLady] = useState(null);
   const [error, setError] = useState('');
   const [editing, setEditing] = useState(false);
-  const [form, setForm] = useState({ name: '', mobile: '', address: '' });
+  const [form, setForm] = useState({
+    name: '',
+    maritalStatus: '',
+    fatherName: '',
+    husbandName: '',
+    mobile: '',
+    address: '',
+  });
   const [saving, setSaving] = useState(false);
 
   function load() {
     getLady(id)
       .then((data) => {
         setLady(data);
-        setForm({ name: data.name, mobile: data.mobile || '', address: data.address || '' });
+        setForm({
+          name: data.name,
+          maritalStatus: data.marital_status || '',
+          fatherName: data.father_name || '',
+          husbandName: data.husband_name || '',
+          mobile: data.mobile || '',
+          address: data.address || '',
+        });
       })
       .catch((err) => setError(err.response?.data?.message || 'Failed to load lady'));
   }
@@ -59,6 +73,57 @@ export default function LadyProfilePage() {
                 className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
               />
             </div>
+            <div>
+              <label className="block text-sm font-medium text-neutral-700 mb-1.5">Marital Status</label>
+              <div className="flex gap-4">
+                <label className="flex items-center gap-2 text-sm text-neutral-700">
+                  <input
+                    type="radio"
+                    name="maritalStatus"
+                    value="UNMARRIED"
+                    checked={form.maritalStatus === 'UNMARRIED'}
+                    onChange={(e) => setForm((f) => ({ ...f, maritalStatus: e.target.value }))}
+                    required
+                    className="accent-brand-600"
+                  />
+                  Unmarried
+                </label>
+                <label className="flex items-center gap-2 text-sm text-neutral-700">
+                  <input
+                    type="radio"
+                    name="maritalStatus"
+                    value="MARRIED"
+                    checked={form.maritalStatus === 'MARRIED'}
+                    onChange={(e) => setForm((f) => ({ ...f, maritalStatus: e.target.value }))}
+                    required
+                    className="accent-brand-600"
+                  />
+                  Married
+                </label>
+              </div>
+            </div>
+            {form.maritalStatus === 'UNMARRIED' && (
+              <div>
+                <label className="block text-sm font-medium text-neutral-700 mb-1">Father's Name</label>
+                <input
+                  required
+                  value={form.fatherName}
+                  onChange={(e) => setForm((f) => ({ ...f, fatherName: e.target.value }))}
+                  className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                />
+              </div>
+            )}
+            {form.maritalStatus === 'MARRIED' && (
+              <div>
+                <label className="block text-sm font-medium text-neutral-700 mb-1">Husband's Name</label>
+                <input
+                  required
+                  value={form.husbandName}
+                  onChange={(e) => setForm((f) => ({ ...f, husbandName: e.target.value }))}
+                  className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                />
+              </div>
+            )}
             <div>
               <label className="block text-sm font-medium text-neutral-700 mb-1">Mobile</label>
               <input
@@ -111,6 +176,20 @@ export default function LadyProfilePage() {
               </button>
             </div>
             <dl className="mt-4 grid grid-cols-2 gap-4 text-sm">
+              <div>
+                <dt className="text-neutral-500">Marital Status</dt>
+                <dd className="text-neutral-900 mt-0.5">
+                  {lady.marital_status === 'MARRIED' ? 'Married' : lady.marital_status === 'UNMARRIED' ? 'Unmarried' : '—'}
+                </dd>
+              </div>
+              <div>
+                <dt className="text-neutral-500">
+                  {lady.marital_status === 'MARRIED' ? "Husband's Name" : "Father's Name"}
+                </dt>
+                <dd className="text-neutral-900 mt-0.5">
+                  {lady.marital_status === 'MARRIED' ? lady.husband_name || '—' : lady.father_name || '—'}
+                </dd>
+              </div>
               <div>
                 <dt className="text-neutral-500">Mobile</dt>
                 <dd className="text-neutral-900 mt-0.5">{lady.mobile || '—'}</dd>

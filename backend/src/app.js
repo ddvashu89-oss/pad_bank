@@ -7,6 +7,7 @@ const stockRoutes = require('./routes/stockRoutes');
 const distributionRoutes = require('./routes/distributionRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 const analyticsRoutes = require('./routes/analyticsRoutes');
+const systemRoutes = require('./routes/systemRoutes');
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use('/api/stock', stockRoutes);
 app.use('/api/distributions', distributionRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/system', systemRoutes);
 
 app.use((req, res) => {
     res.status(404).json({ message: 'Not found' });

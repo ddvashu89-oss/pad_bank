@@ -9,6 +9,10 @@ function maskAadhaar(aadhaar) {
     return `XXXX-XXXX-${last4}`;
 }
 
+function isValidAadhaar(aadhaar) {
+    return /^\d{12}$/.test(aadhaar);
+}
+
 function validateFamilyInfo({ maritalStatus, fatherName, husbandName }) {
     if (maritalStatus !== 'MARRIED' && maritalStatus !== 'UNMARRIED') {
         return 'Marital status must be either MARRIED or UNMARRIED';
@@ -91,6 +95,10 @@ async function createLady(req, res) {
         return res.status(400).json({ message: 'Aadhaar and name are required' });
     }
 
+    if (!isValidAadhaar(aadhaar)) {
+        return res.status(400).json({ message: 'Aadhaar number must be exactly 12 digits' });
+    }
+
     const familyInfoError = validateFamilyInfo({ maritalStatus, fatherName, husbandName });
     if (familyInfoError) {
         return res.status(400).json({ message: familyInfoError });
@@ -124,9 +132,9 @@ async function createLady(req, res) {
 
 async function updateLady(req, res) {
     const { id } = req.params;
-    const { name, maritalStatus, fatherName, husbandName, mobile, address } = req.body;
+    const { aadhaar, name, maritalStatus, fatherName, husbandName, mobile, address } = req.body;
 
-    const [existing] = await pool.query('SELECT id FROM ladies WHERE id = ?', [id]);
+    const [existing] = await pool.query('SELECT id, aadhaar FROM ladies WHERE id = ?', [id]);
     if (existing.length === 0) {
         return res.status(404).json({ message: 'Lady not found' });
     }
@@ -140,18 +148,34 @@ async function updateLady(req, res) {
         return res.status(400).json({ message: familyInfoError });
     }
 
+    const nextAadhaar = aadhaar || existing[0].aadhaar;
+    if (!isValidAadhaar(nextAadhaar)) {
+        return res.status(400).json({ message: 'Aadhaar number must be exactly 12 digits' });
+    }
+
+    if (nextAadhaar !== existing[0].aadhaar) {
+        const [conflict] = await pool.query('SELECT id FROM ladies WHERE aadhaar = ? AND id != ?', [
+            nextAadhaar,
+            id,
+        ]);
+        if (conflict.length > 0) {
+            return res.status(409).json({ message: 'This Aadhaar number is already registered to another lady.' });
+        }
+    }
+
     const husbandNameToStore = maritalStatus === 'MARRIED' ? husbandName : null;
     const fatherNameToStore = maritalStatus === 'UNMARRIED' ? fatherName : null;
 
     await pool.query(
         `UPDATE ladies
-         SET name = ?, marital_status = ?, father_name = ?, husband_name = ?, mobile = ?, address = ?
+         SET aadhaar = ?, name = ?, marital_status = ?, father_name = ?, husband_name = ?, mobile = ?, address = ?
          WHERE id = ?`,
-        [name, maritalStatus, fatherNameToStore, husbandNameToStore, mobile || null, address || null, id]
+        [nextAadhaar, name, maritalStatus, fatherNameToStore, husbandNameToStore, mobile || null, address || null, id]
     );
 
     res.json({
         id: Number(id),
+        aadhaar: nextAadhaar,
         name,
         maritalStatus,
         fatherName: fatherNameToStore,

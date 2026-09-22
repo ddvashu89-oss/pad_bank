@@ -9,8 +9,10 @@ export default function LadyProfilePage() {
   const { id } = useParams();
   const [lady, setLady] = useState(null);
   const [error, setError] = useState('');
+  const [formError, setFormError] = useState('');
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState({
+    aadhaar: '',
     name: '',
     maritalStatus: '',
     fatherName: '',
@@ -25,6 +27,7 @@ export default function LadyProfilePage() {
       .then((data) => {
         setLady(data);
         setForm({
+          aadhaar: data.aadhaar,
           name: data.name,
           maritalStatus: data.marital_status || '',
           fatherName: data.father_name || '',
@@ -38,15 +41,27 @@ export default function LadyProfilePage() {
 
   useEffect(load, [id]);
 
+  function updateAadhaar(e) {
+    const digitsOnly = e.target.value.replace(/\D/g, '').slice(0, 12);
+    setForm((f) => ({ ...f, aadhaar: digitsOnly }));
+  }
+
   async function handleSave(e) {
     e.preventDefault();
+    setFormError('');
+
+    if (!/^\d{12}$/.test(form.aadhaar)) {
+      setFormError('Aadhaar number must be exactly 12 digits');
+      return;
+    }
+
     setSaving(true);
     try {
       await updateLady(id, form);
       setEditing(false);
       load();
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to update lady');
+      setFormError(err.response?.data?.message || 'Failed to update lady');
     } finally {
       setSaving(false);
     }
@@ -65,6 +80,28 @@ export default function LadyProfilePage() {
       <div className="bg-white border border-neutral-200 rounded-xl p-6">
         {editing ? (
           <form onSubmit={handleSave} className="space-y-4">
+            {formError && (
+              <div className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                {formError}
+              </div>
+            )}
+            <div>
+              <label className="block text-sm font-medium text-neutral-700 mb-1">Aadhaar Number</label>
+              <input
+                required
+                inputMode="numeric"
+                pattern="\d{12}"
+                maxLength={12}
+                title="Aadhaar number must be exactly 12 digits"
+                value={form.aadhaar}
+                onChange={updateAadhaar}
+                className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-brand-500"
+              />
+              <p className="text-xs text-neutral-400 mt-1">
+                {form.aadhaar.replace(/\D/g, '').length}/12 digits
+                {form.aadhaar && !/^\d+$/.test(form.aadhaar) && ' — contains non-digit characters, please retype'}
+              </p>
+            </div>
             <div>
               <label className="block text-sm font-medium text-neutral-700 mb-1">Name</label>
               <input
@@ -153,7 +190,10 @@ export default function LadyProfilePage() {
               </button>
               <button
                 type="button"
-                onClick={() => setEditing(false)}
+                onClick={() => {
+                  setEditing(false);
+                  setFormError('');
+                }}
                 className="flex items-center gap-1.5 border border-neutral-300 text-neutral-700 text-sm font-medium rounded-lg px-4 py-2 hover:bg-neutral-50"
               >
                 <X size={15} />

@@ -7,7 +7,7 @@ export default function AddLadyPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [form, setForm] = useState({
-    aadhaar: searchParams.get('aadhaar') || '',
+    aadhaar: (searchParams.get('aadhaar') || '').replace(/\D/g, '').slice(0, 12),
     name: '',
     maritalStatus: '',
     fatherName: '',
@@ -22,9 +22,20 @@ export default function AddLadyPage() {
     return (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
   }
 
+  function updateAadhaar(e) {
+    const digitsOnly = e.target.value.replace(/\D/g, '').slice(0, 12);
+    setForm((f) => ({ ...f, aadhaar: digitsOnly }));
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
     setError('');
+
+    if (!/^\d{12}$/.test(form.aadhaar)) {
+      setError('Aadhaar number must be exactly 12 digits');
+      return;
+    }
+
     setSubmitting(true);
     try {
       const lady = await createLady(form);
@@ -55,10 +66,16 @@ export default function AddLadyPage() {
           <label className="block text-sm font-medium text-neutral-700 mb-1">Aadhaar Number *</label>
           <input
             required
+            inputMode="numeric"
+            pattern="\d{12}"
+            maxLength={12}
+            title="Aadhaar number must be exactly 12 digits"
             value={form.aadhaar}
-            onChange={update('aadhaar')}
-            className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+            onChange={updateAadhaar}
+            placeholder="12-digit Aadhaar number"
+            className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-brand-500"
           />
+          <p className="text-xs text-neutral-400 mt-1">{form.aadhaar.length}/12 digits</p>
         </div>
 
         <div>

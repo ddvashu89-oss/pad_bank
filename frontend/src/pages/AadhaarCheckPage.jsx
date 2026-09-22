@@ -48,9 +48,11 @@ export default function AadhaarCheckPage() {
         <div className="flex gap-2">
           <input
             value={aadhaar}
-            onChange={(e) => setAadhaar(e.target.value)}
-            placeholder="Enter full Aadhaar number"
-            className="flex-1 border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+            onChange={(e) => setAadhaar(e.target.value.replace(/\D/g, '').slice(0, 12))}
+            inputMode="numeric"
+            maxLength={12}
+            placeholder="Enter 12-digit Aadhaar number"
+            className="flex-1 border border-neutral-300 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-brand-500"
           />
           <button
             type="submit"

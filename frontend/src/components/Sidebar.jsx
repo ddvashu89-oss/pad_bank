@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Users, Package, Gift, History, Droplet } from 'lucide-react';
+import { LayoutDashboard, Users, Package, Gift, History, Droplet, BarChart3 } from 'lucide-react';
 
 const links = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -7,6 +7,7 @@ const links = [
   { to: '/stock', label: 'Stock', icon: Package },
   { to: '/distributions/give', label: 'Give Pads', icon: Gift },
   { to: '/distributions', label: 'History', icon: History },
+  { to: '/analytics', label: 'Analytics', icon: BarChart3 },
 ];
 
 export default function Sidebar() {

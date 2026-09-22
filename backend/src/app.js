@@ -6,6 +6,7 @@ const ladyRoutes = require('./routes/ladyRoutes');
 const stockRoutes = require('./routes/stockRoutes');
 const distributionRoutes = require('./routes/distributionRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
+const analyticsRoutes = require('./routes/analyticsRoutes');
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use('/api/ladies', ladyRoutes);
 app.use('/api/stock', stockRoutes);
 app.use('/api/distributions', distributionRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 app.use((req, res) => {
     res.status(404).json({ message: 'Not found' });

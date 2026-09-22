@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { addStock } from '../services/stockService.js';
+import Spinner from '../components/Spinner.jsx';
 
 export default function AddStockPage() {
   const navigate = useNavigate();
@@ -59,8 +60,9 @@ export default function AddStockPage() {
         <button
           type="submit"
           disabled={submitting}
-          className="w-full bg-brand-600 hover:bg-brand-700 disabled:opacity-60 text-white font-medium rounded-lg py-2.5 text-sm transition-colors"
+          className="w-full flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 disabled:opacity-60 text-white font-medium rounded-lg py-2.5 text-sm transition-colors"
         >
+          {submitting && <Spinner size={16} />}
           {submitting ? 'Saving…' : 'Add Stock'}
         </button>
       </form>

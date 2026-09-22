@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Search, CheckCircle2, XCircle, Gift, ExternalLink } from 'lucide-react';
 import { searchByAadhaar, getLady } from '../services/ladyService.js';
 import { formatDate, formatNumber } from '../utils/format.js';
+import Spinner from '../components/Spinner.jsx';
 
 export default function AadhaarCheckPage() {
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ export default function AadhaarCheckPage() {
             disabled={searching || !aadhaar}
             className="flex items-center gap-1.5 bg-brand-600 hover:bg-brand-700 disabled:opacity-60 text-white text-sm font-medium rounded-lg px-4 py-2 transition-colors"
           >
-            <Search size={15} />
+            {searching ? <Spinner size={15} /> : <Search size={15} />}
             {searching ? 'Checking…' : 'Check'}
           </button>
         </div>

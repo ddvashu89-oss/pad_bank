@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Pencil, X, Check } from 'lucide-react';
 import { getLady, updateLady } from '../services/ladyService.js';
+import Spinner, { LoadingBlock } from '../components/Spinner.jsx';
 import { formatDate, formatNumber } from '../utils/format.js';
 
 export default function LadyProfilePage() {
@@ -56,7 +57,7 @@ export default function LadyProfilePage() {
   }
 
   if (!lady) {
-    return <p className="text-sm text-neutral-500">Loading…</p>;
+    return <LoadingBlock />;
   }
 
   return (
@@ -147,7 +148,7 @@ export default function LadyProfilePage() {
                 disabled={saving}
                 className="flex items-center gap-1.5 bg-brand-600 hover:bg-brand-700 disabled:opacity-60 text-white text-sm font-medium rounded-lg px-4 py-2 transition-colors"
               >
-                <Check size={15} />
+                {saving ? <Spinner size={15} /> : <Check size={15} />}
                 {saving ? 'Saving…' : 'Save'}
               </button>
               <button

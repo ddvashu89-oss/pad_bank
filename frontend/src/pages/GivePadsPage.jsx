@@ -5,6 +5,7 @@ import { searchByAadhaar, getLady } from '../services/ladyService.js';
 import { createDistribution } from '../services/distributionService.js';
 import { fetchDashboard } from '../services/dashboardService.js';
 import { formatNumber, todayISO } from '../utils/format.js';
+import Spinner from '../components/Spinner.jsx';
 
 export default function GivePadsPage() {
   const [searchParams] = useSearchParams();
@@ -97,7 +98,7 @@ export default function GivePadsPage() {
               disabled={searching || !aadhaar}
               className="flex items-center gap-1.5 bg-brand-600 hover:bg-brand-700 disabled:opacity-60 text-white text-sm font-medium rounded-lg px-4 py-2 transition-colors"
             >
-              <Search size={15} />
+              {searching ? <Spinner size={15} /> : <Search size={15} />}
               {searching ? 'Searching…' : 'Search'}
             </button>
           </div>
@@ -121,7 +122,7 @@ export default function GivePadsPage() {
             <div className="flex justify-between">
               <dt className="text-neutral-500">Available Pads</dt>
               <dd className="font-medium text-neutral-900">
-                {available === null ? '…' : formatNumber(available)}
+                {available === null ? <Spinner size={14} /> : formatNumber(available)}
               </dd>
             </div>
           </dl>
@@ -144,8 +145,9 @@ export default function GivePadsPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="flex-1 bg-brand-600 hover:bg-brand-700 disabled:opacity-60 text-white font-medium rounded-lg py-2.5 text-sm transition-colors"
+              className="flex-1 flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 disabled:opacity-60 text-white font-medium rounded-lg py-2.5 text-sm transition-colors"
             >
+              {submitting && <Spinner size={16} />}
               {submitting ? 'Saving…' : 'Confirm'}
             </button>
             <button

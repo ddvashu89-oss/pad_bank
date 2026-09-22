@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Droplet } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth.jsx';
+import Spinner from '../components/Spinner.jsx';
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -69,8 +70,9 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full bg-brand-600 hover:bg-brand-700 disabled:opacity-60 text-white font-medium rounded-lg py-2.5 text-sm transition-colors"
+            className="w-full flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 disabled:opacity-60 text-white font-medium rounded-lg py-2.5 text-sm transition-colors"
           >
+            {submitting && <Spinner size={16} />}
             {submitting ? 'Signing in…' : 'Sign In'}
           </button>
         </form>

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, UserPlus } from 'lucide-react';
 import { listLadies } from '../services/ladyService.js';
+import { LoadingBlock } from '../components/Spinner.jsx';
 
 export default function LadiesPage() {
   const [ladies, setLadies] = useState([]);
@@ -51,7 +52,7 @@ export default function LadiesPage() {
 
       <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden">
         {loading ? (
-          <p className="px-5 py-6 text-sm text-neutral-500">Loading…</p>
+          <LoadingBlock />
         ) : ladies.length === 0 ? (
           <p className="px-5 py-6 text-sm text-neutral-500">No ladies found.</p>
         ) : (

@@ -4,6 +4,7 @@ import { PackagePlus, PackageCheck, Gift, Droplet } from 'lucide-react';
 import { listStock } from '../services/stockService.js';
 import { listDistributions } from '../services/distributionService.js';
 import StatCard from '../components/StatCard.jsx';
+import { LoadingBlock } from '../components/Spinner.jsx';
 import { formatDate, formatNumber } from '../utils/format.js';
 
 export default function StockPage() {
@@ -58,7 +59,7 @@ export default function StockPage() {
           <h2 className="font-semibold text-neutral-900">Stock Added</h2>
         </div>
         {loading ? (
-          <p className="px-5 py-6 text-sm text-neutral-500">Loading…</p>
+          <LoadingBlock />
         ) : entries.length === 0 ? (
           <p className="px-5 py-6 text-sm text-neutral-500">No stock entries yet.</p>
         ) : (
@@ -102,7 +103,7 @@ export default function StockPage() {
           </Link>
         </div>
         {loading ? (
-          <p className="px-5 py-6 text-sm text-neutral-500">Loading…</p>
+          <LoadingBlock />
         ) : distributions.length === 0 ? (
           <p className="px-5 py-6 text-sm text-neutral-500">No pads have been given out yet.</p>
         ) : (

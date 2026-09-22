@@ -13,6 +13,7 @@ import {
 } from 'recharts';
 import { Users, Gift, TrendingUp } from 'lucide-react';
 import StatCard from '../components/StatCard.jsx';
+import { LoadingBlock } from '../components/Spinner.jsx';
 import { fetchAnalytics } from '../services/analyticsService.js';
 import { formatNumber } from '../utils/format.js';
 
@@ -69,7 +70,7 @@ export default function AnalyticsPage() {
   }
 
   if (!data) {
-    return <p className="text-sm text-neutral-500">Loading…</p>;
+    return <LoadingBlock label="Loading analytics…" />;
   }
 
   return (

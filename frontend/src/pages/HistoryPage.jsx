@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { listDistributions } from '../services/distributionService.js';
+import { LoadingBlock } from '../components/Spinner.jsx';
 import { formatDate, formatNumber } from '../utils/format.js';
 
 export default function HistoryPage() {
@@ -63,7 +64,7 @@ export default function HistoryPage() {
 
       <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden">
         {loading ? (
-          <p className="px-5 py-6 text-sm text-neutral-500">Loading…</p>
+          <LoadingBlock />
         ) : distributions.length === 0 ? (
           <p className="px-5 py-6 text-sm text-neutral-500">No distributions found.</p>
         ) : (

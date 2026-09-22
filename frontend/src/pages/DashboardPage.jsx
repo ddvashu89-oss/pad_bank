@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Users, PackagePlus, Droplet, Gift } from 'lucide-react';
 import StatCard from '../components/StatCard.jsx';
+import { LoadingBlock } from '../components/Spinner.jsx';
 import { fetchDashboard } from '../services/dashboardService.js';
 import { formatDate, formatNumber } from '../utils/format.js';
 
@@ -33,6 +34,8 @@ export default function DashboardPage() {
           {error}
         </div>
       )}
+
+      {!data && !error && <LoadingBlock label="Loading dashboard…" />}
 
       {data && (
         <>

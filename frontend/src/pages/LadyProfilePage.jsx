@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useSearchParams, Link } from 'react-router-dom';
 import { Pencil, X, Check } from 'lucide-react';
 import { getLady, updateLady } from '../services/ladyService.js';
 import Spinner, { LoadingBlock } from '../components/Spinner.jsx';
@@ -7,10 +7,11 @@ import { formatDate, formatNumber, formatAadhaar } from '../utils/format.js';
 
 export default function LadyProfilePage() {
   const { id } = useParams();
+  const [searchParams] = useSearchParams();
   const [lady, setLady] = useState(null);
   const [error, setError] = useState('');
   const [formError, setFormError] = useState('');
-  const [editing, setEditing] = useState(false);
+  const [editing, setEditing] = useState(searchParams.get('edit') === '1');
   const [form, setForm] = useState({
     aadhaar: '',
     name: '',

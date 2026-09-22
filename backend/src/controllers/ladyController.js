@@ -185,4 +185,26 @@ async function updateLady(req, res) {
     });
 }
 
-module.exports = { listLadies, searchByAadhaar, getLady, createLady, updateLady };
+async function deleteLady(req, res) {
+    const { id } = req.params;
+
+    const [existing] = await pool.query('SELECT id FROM ladies WHERE id = ?', [id]);
+    if (existing.length === 0) {
+        return res.status(404).json({ message: 'Lady not found' });
+    }
+
+    const [[{ distributionCount }]] = await pool.query(
+        'SELECT COUNT(*) AS distributionCount FROM pad_distribution WHERE lady_id = ?',
+        [id]
+    );
+    if (distributionCount > 0) {
+        return res.status(409).json({
+            message: `Cannot delete — this lady has ${distributionCount} distribution record(s). Ladies with distribution history can't be deleted, to preserve the audit trail.`,
+        });
+    }
+
+    await pool.query('DELETE FROM ladies WHERE id = ?', [id]);
+    res.json({ message: 'Lady deleted' });
+}
+
+module.exports = { listLadies, searchByAadhaar, getLady, createLady, updateLady, deleteLady };

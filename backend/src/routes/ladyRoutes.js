@@ -5,6 +5,7 @@ const {
     getLady,
     createLady,
     updateLady,
+    deleteLady,
 } = require('../controllers/ladyController');
 const { requireAuth } = require('../middleware/authMiddleware');
 const asyncHandler = require('../utils/asyncHandler');
@@ -19,5 +20,6 @@ router.get('/', asyncHandler(listLadies));
 router.get('/:id', asyncHandler(getLady));
 router.post('/', asyncHandler(createLady));
 router.put('/:id', asyncHandler(updateLady));
+router.delete('/:id', asyncHandler(deleteLady));
 
 module.exports = router;

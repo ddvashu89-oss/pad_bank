@@ -24,3 +24,8 @@ export async function updateLady(id, payload) {
   const { data } = await api.put(`/ladies/${id}`, payload);
   return data;
 }
+
+export async function deleteLady(id) {
+  const { data } = await api.delete(`/ladies/${id}`);
+  return data;
+}

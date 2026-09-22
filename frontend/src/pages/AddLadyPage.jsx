@@ -1,10 +1,16 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { createLady } from '../services/ladyService.js';
 
 export default function AddLadyPage() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ aadhaar: '', name: '', mobile: '', address: '' });
+  const [searchParams] = useSearchParams();
+  const [form, setForm] = useState({
+    aadhaar: searchParams.get('aadhaar') || '',
+    name: '',
+    mobile: '',
+    address: '',
+  });
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 

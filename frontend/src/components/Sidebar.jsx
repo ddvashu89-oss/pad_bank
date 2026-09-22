@@ -1,9 +1,10 @@
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Users, Package, Gift, History, Droplet, BarChart3 } from 'lucide-react';
+import { LayoutDashboard, Users, Package, Gift, History, Droplet, BarChart3, UserSearch } from 'lucide-react';
 
 const links = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/ladies', label: 'Ladies', icon: Users },
+  { to: '/check-aadhaar', label: 'Check Aadhaar', icon: UserSearch },
   { to: '/stock', label: 'Stock', icon: Package },
   { to: '/distributions/give', label: 'Give Pads', icon: Gift },
   { to: '/distributions', label: 'History', icon: History },

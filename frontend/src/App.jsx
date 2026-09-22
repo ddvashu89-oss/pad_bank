@@ -12,6 +12,7 @@ import AddStockPage from './pages/AddStockPage.jsx';
 import GivePadsPage from './pages/GivePadsPage.jsx';
 import HistoryPage from './pages/HistoryPage.jsx';
 import AnalyticsPage from './pages/AnalyticsPage.jsx';
+import AadhaarCheckPage from './pages/AadhaarCheckPage.jsx';
 
 export default function App() {
   return (
@@ -36,6 +37,7 @@ export default function App() {
             <Route path="/distributions" element={<HistoryPage />} />
             <Route path="/distributions/give" element={<GivePadsPage />} />
             <Route path="/analytics" element={<AnalyticsPage />} />
+            <Route path="/check-aadhaar" element={<AadhaarCheckPage />} />
           </Route>
 
           <Route path="/" element={<Navigate to="/dashboard" replace />} />

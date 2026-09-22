@@ -4,7 +4,7 @@ import { Search, CheckCircle2 } from 'lucide-react';
 import { searchByAadhaar, getLady } from '../services/ladyService.js';
 import { createDistribution } from '../services/distributionService.js';
 import { fetchDashboard } from '../services/dashboardService.js';
-import { formatNumber, todayISO } from '../utils/format.js';
+import { formatNumber, todayISO, formatAadhaar } from '../utils/format.js';
 import Spinner from '../components/Spinner.jsx';
 
 export default function GivePadsPage() {
@@ -119,7 +119,7 @@ export default function GivePadsPage() {
             </div>
             <div className="flex justify-between">
               <dt className="text-neutral-500">Aadhaar</dt>
-              <dd className="font-mono text-neutral-900">{lady.aadhaar}</dd>
+              <dd className="font-mono text-neutral-900">{formatAadhaar(lady.aadhaar)}</dd>
             </div>
             <div className="flex justify-between">
               <dt className="text-neutral-500">Available Pads</dt>

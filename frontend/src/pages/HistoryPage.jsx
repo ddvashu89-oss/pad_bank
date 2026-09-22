@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { listDistributions } from '../services/distributionService.js';
 import { LoadingBlock } from '../components/Spinner.jsx';
-import { formatDate, formatNumber } from '../utils/format.js';
+import { formatDate, formatNumber, formatAadhaar } from '../utils/format.js';
 
 export default function HistoryPage() {
   const [distributions, setDistributions] = useState([]);
@@ -85,7 +85,7 @@ export default function HistoryPage() {
                       <td className="px-5 py-2.5 text-neutral-600 whitespace-nowrap">{formatDate(d.distribution_date)}</td>
                       <td className="px-5 py-2.5 text-neutral-900 whitespace-nowrap">{d.ladyName}</td>
                       <td className="px-5 py-2.5 text-neutral-500 font-mono text-xs whitespace-nowrap">
-                        {d.aadhaar}
+                        {formatAadhaar(d.aadhaar)}
                       </td>
                       <td className="px-5 py-2.5 text-right font-medium text-neutral-900 whitespace-nowrap">{d.quantity}</td>
                     </tr>

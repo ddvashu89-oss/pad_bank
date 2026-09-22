@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Pencil, X, Check } from 'lucide-react';
 import { getLady, updateLady } from '../services/ladyService.js';
 import Spinner, { LoadingBlock } from '../components/Spinner.jsx';
-import { formatDate, formatNumber } from '../utils/format.js';
+import { formatDate, formatNumber, formatAadhaar } from '../utils/format.js';
 
 export default function LadyProfilePage() {
   const { id } = useParams();
@@ -206,7 +206,7 @@ export default function LadyProfilePage() {
             <div className="flex items-start justify-between">
               <div>
                 <h1 className="text-xl font-bold text-neutral-900">{lady.name}</h1>
-                <p className="text-sm text-neutral-500 font-mono mt-0.5">{lady.aadhaar}</p>
+                <p className="text-sm text-neutral-500 font-mono mt-0.5">{formatAadhaar(lady.aadhaar)}</p>
               </div>
               <button
                 onClick={() => setEditing(true)}

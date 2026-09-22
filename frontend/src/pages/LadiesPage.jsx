@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Search, UserPlus } from 'lucide-react';
 import { listLadies } from '../services/ladyService.js';
 import { LoadingBlock } from '../components/Spinner.jsx';
+import { formatAadhaar } from '../utils/format.js';
 
 export default function LadiesPage() {
   const [ladies, setLadies] = useState([]);
@@ -73,7 +74,7 @@ export default function LadiesPage() {
                         {lady.name}
                       </Link>
                     </td>
-                    <td className="px-5 py-2.5 text-neutral-600 font-mono text-xs whitespace-nowrap">{lady.aadhaar}</td>
+                    <td className="px-5 py-2.5 text-neutral-600 font-mono text-xs whitespace-nowrap">{formatAadhaar(lady.aadhaar)}</td>
                     <td className="px-5 py-2.5 text-neutral-600 whitespace-nowrap">{lady.mobile || '—'}</td>
                   </tr>
                 ))}

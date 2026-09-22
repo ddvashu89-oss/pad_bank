@@ -14,3 +14,10 @@ export function formatNumber(n) {
 export function todayISO() {
   return new Date().toISOString().slice(0, 10);
 }
+
+export function formatAadhaar(aadhaar) {
+  if (!aadhaar) return aadhaar;
+  const digits = aadhaar.replace(/\D/g, '');
+  if (digits.length !== 12) return aadhaar;
+  return `${digits.slice(0, 4)} ${digits.slice(4, 8)} ${digits.slice(8, 12)}`;
+}

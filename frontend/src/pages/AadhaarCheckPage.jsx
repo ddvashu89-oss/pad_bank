@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Search, CheckCircle2, XCircle, Gift, ExternalLink } from 'lucide-react';
 import { searchByAadhaar, getLady } from '../services/ladyService.js';
-import { formatDate, formatNumber } from '../utils/format.js';
+import { formatDate, formatNumber, formatAadhaar } from '../utils/format.js';
 import Spinner from '../components/Spinner.jsx';
 
 export default function AadhaarCheckPage() {
@@ -91,7 +91,7 @@ export default function AadhaarCheckPage() {
             <div className="flex items-start justify-between">
               <div>
                 <h2 className="text-xl font-bold text-neutral-900">{lady.name}</h2>
-                <p className="text-sm text-neutral-500 font-mono mt-0.5">{lady.aadhaar}</p>
+                <p className="text-sm text-neutral-500 font-mono mt-0.5">{formatAadhaar(lady.aadhaar)}</p>
               </div>
               <Link
                 to={`/ladies/${lady.id}`}

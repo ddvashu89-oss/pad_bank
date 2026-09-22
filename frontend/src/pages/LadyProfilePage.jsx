@@ -175,7 +175,7 @@ export default function LadyProfilePage() {
                 Edit
               </button>
             </div>
-            <dl className="mt-4 grid grid-cols-2 gap-4 text-sm">
+            <dl className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
               <div>
                 <dt className="text-neutral-500">Marital Status</dt>
                 <dd className="text-neutral-900 mt-0.5">
@@ -203,7 +203,7 @@ export default function LadyProfilePage() {
         )}
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="bg-white border border-neutral-200 rounded-xl p-5">
           <p className="text-sm text-neutral-500">Total Distributions</p>
           <p className="text-2xl font-bold text-neutral-900 mt-1">{formatNumber(lady.totalDistributions)}</p>
@@ -227,16 +227,18 @@ export default function LadyProfilePage() {
         {lady.history.length === 0 ? (
           <p className="px-5 py-6 text-sm text-neutral-500">No distributions yet.</p>
         ) : (
-          <table className="w-full text-sm">
-            <tbody>
-              {lady.history.map((h) => (
-                <tr key={h.id} className="border-b border-neutral-50 last:border-0">
-                  <td className="px-5 py-2.5 text-neutral-600">{formatDate(h.distribution_date)}</td>
-                  <td className="px-5 py-2.5 text-right font-medium text-neutral-900">{h.quantity} pads</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <tbody>
+                {lady.history.map((h) => (
+                  <tr key={h.id} className="border-b border-neutral-50 last:border-0">
+                    <td className="px-5 py-2.5 text-neutral-600 whitespace-nowrap">{formatDate(h.distribution_date)}</td>
+                    <td className="px-5 py-2.5 text-right font-medium text-neutral-900 whitespace-nowrap">{h.quantity} pads</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
     </div>

@@ -44,28 +44,30 @@ export default function StockPage() {
           <p className="px-5 py-6 text-sm text-neutral-500">No stock entries yet.</p>
         ) : (
           <>
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="text-left text-neutral-500 border-b border-neutral-100 bg-neutral-50">
-                  <th className="px-5 py-2.5 font-medium">Date</th>
-                  <th className="px-5 py-2.5 font-medium">Note</th>
-                  <th className="px-5 py-2.5 font-medium">Added By</th>
-                  <th className="px-5 py-2.5 font-medium text-right">Quantity</th>
-                </tr>
-              </thead>
-              <tbody>
-                {entries.map((e) => (
-                  <tr key={e.id} className="border-b border-neutral-50 last:border-0">
-                    <td className="px-5 py-2.5 text-neutral-600">{formatDate(e.created_at)}</td>
-                    <td className="px-5 py-2.5 text-neutral-900">{e.note || '—'}</td>
-                    <td className="px-5 py-2.5 text-neutral-600">{e.createdByName || '—'}</td>
-                    <td className="px-5 py-2.5 text-right font-medium text-neutral-900">
-                      +{formatNumber(e.quantity)}
-                    </td>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-left text-neutral-500 border-b border-neutral-100 bg-neutral-50">
+                    <th className="px-5 py-2.5 font-medium whitespace-nowrap">Date</th>
+                    <th className="px-5 py-2.5 font-medium whitespace-nowrap">Note</th>
+                    <th className="px-5 py-2.5 font-medium whitespace-nowrap">Added By</th>
+                    <th className="px-5 py-2.5 font-medium text-right whitespace-nowrap">Quantity</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {entries.map((e) => (
+                    <tr key={e.id} className="border-b border-neutral-50 last:border-0">
+                      <td className="px-5 py-2.5 text-neutral-600 whitespace-nowrap">{formatDate(e.created_at)}</td>
+                      <td className="px-5 py-2.5 text-neutral-900">{e.note || '—'}</td>
+                      <td className="px-5 py-2.5 text-neutral-600 whitespace-nowrap">{e.createdByName || '—'}</td>
+                      <td className="px-5 py-2.5 text-right font-medium text-neutral-900 whitespace-nowrap">
+                        +{formatNumber(e.quantity)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
             <div className="px-5 py-3 bg-neutral-50 border-t border-neutral-100 text-sm font-semibold text-neutral-900 text-right">
               Total Added: {formatNumber(total)}
             </div>

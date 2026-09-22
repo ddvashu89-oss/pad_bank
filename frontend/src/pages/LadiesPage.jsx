@@ -55,28 +55,30 @@ export default function LadiesPage() {
         ) : ladies.length === 0 ? (
           <p className="px-5 py-6 text-sm text-neutral-500">No ladies found.</p>
         ) : (
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="text-left text-neutral-500 border-b border-neutral-100 bg-neutral-50">
-                <th className="px-5 py-2.5 font-medium">Name</th>
-                <th className="px-5 py-2.5 font-medium">Aadhaar</th>
-                <th className="px-5 py-2.5 font-medium">Mobile</th>
-              </tr>
-            </thead>
-            <tbody>
-              {ladies.map((lady) => (
-                <tr key={lady.id} className="border-b border-neutral-50 last:border-0 hover:bg-neutral-50">
-                  <td className="px-5 py-2.5">
-                    <Link to={`/ladies/${lady.id}`} className="font-medium text-brand-700 hover:underline">
-                      {lady.name}
-                    </Link>
-                  </td>
-                  <td className="px-5 py-2.5 text-neutral-600 font-mono text-xs">{lady.aadhaarMasked}</td>
-                  <td className="px-5 py-2.5 text-neutral-600">{lady.mobile || '—'}</td>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-left text-neutral-500 border-b border-neutral-100 bg-neutral-50">
+                  <th className="px-5 py-2.5 font-medium whitespace-nowrap">Name</th>
+                  <th className="px-5 py-2.5 font-medium whitespace-nowrap">Aadhaar</th>
+                  <th className="px-5 py-2.5 font-medium whitespace-nowrap">Mobile</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {ladies.map((lady) => (
+                  <tr key={lady.id} className="border-b border-neutral-50 last:border-0 hover:bg-neutral-50">
+                    <td className="px-5 py-2.5 whitespace-nowrap">
+                      <Link to={`/ladies/${lady.id}`} className="font-medium text-brand-700 hover:underline">
+                        {lady.name}
+                      </Link>
+                    </td>
+                    <td className="px-5 py-2.5 text-neutral-600 font-mono text-xs whitespace-nowrap">{lady.aadhaarMasked}</td>
+                    <td className="px-5 py-2.5 text-neutral-600 whitespace-nowrap">{lady.mobile || '—'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
     </div>

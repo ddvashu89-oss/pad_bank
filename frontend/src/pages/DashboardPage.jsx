@@ -54,24 +54,26 @@ export default function DashboardPage() {
             {data.recentDistributions.length === 0 ? (
               <p className="px-5 py-6 text-sm text-neutral-500">No distributions yet.</p>
             ) : (
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="text-left text-neutral-500 border-b border-neutral-100">
-                    <th className="px-5 py-2 font-medium">Date</th>
-                    <th className="px-5 py-2 font-medium">Lady</th>
-                    <th className="px-5 py-2 font-medium text-right">Pads</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.recentDistributions.map((d) => (
-                    <tr key={d.id} className="border-b border-neutral-50 last:border-0">
-                      <td className="px-5 py-2.5 text-neutral-600">{formatDate(d.distribution_date)}</td>
-                      <td className="px-5 py-2.5 text-neutral-900">{d.ladyName}</td>
-                      <td className="px-5 py-2.5 text-right font-medium text-neutral-900">{d.quantity}</td>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="text-left text-neutral-500 border-b border-neutral-100">
+                      <th className="px-5 py-2 font-medium whitespace-nowrap">Date</th>
+                      <th className="px-5 py-2 font-medium whitespace-nowrap">Lady</th>
+                      <th className="px-5 py-2 font-medium text-right whitespace-nowrap">Pads</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {data.recentDistributions.map((d) => (
+                      <tr key={d.id} className="border-b border-neutral-50 last:border-0">
+                        <td className="px-5 py-2.5 text-neutral-600 whitespace-nowrap">{formatDate(d.distribution_date)}</td>
+                        <td className="px-5 py-2.5 text-neutral-900 whitespace-nowrap">{d.ladyName}</td>
+                        <td className="px-5 py-2.5 text-right font-medium text-neutral-900 whitespace-nowrap">{d.quantity}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )}
           </div>
         </>

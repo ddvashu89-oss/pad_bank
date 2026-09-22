@@ -73,7 +73,7 @@ export default function LadiesPage() {
                         {lady.name}
                       </Link>
                     </td>
-                    <td className="px-5 py-2.5 text-neutral-600 font-mono text-xs whitespace-nowrap">{lady.aadhaarMasked}</td>
+                    <td className="px-5 py-2.5 text-neutral-600 font-mono text-xs whitespace-nowrap">{lady.aadhaar}</td>
                     <td className="px-5 py-2.5 text-neutral-600 whitespace-nowrap">{lady.mobile || '—'}</td>
                   </tr>
                 ))}

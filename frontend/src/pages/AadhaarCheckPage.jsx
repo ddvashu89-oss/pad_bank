@@ -91,7 +91,7 @@ export default function AadhaarCheckPage() {
             <div className="flex items-start justify-between">
               <div>
                 <h2 className="text-xl font-bold text-neutral-900">{lady.name}</h2>
-                <p className="text-sm text-neutral-500 font-mono mt-0.5">{lady.aadhaarMasked}</p>
+                <p className="text-sm text-neutral-500 font-mono mt-0.5">{lady.aadhaar}</p>
               </div>
               <Link
                 to={`/ladies/${lady.id}`}

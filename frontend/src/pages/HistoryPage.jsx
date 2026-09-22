@@ -85,7 +85,7 @@ export default function HistoryPage() {
                       <td className="px-5 py-2.5 text-neutral-600 whitespace-nowrap">{formatDate(d.distribution_date)}</td>
                       <td className="px-5 py-2.5 text-neutral-900 whitespace-nowrap">{d.ladyName}</td>
                       <td className="px-5 py-2.5 text-neutral-500 font-mono text-xs whitespace-nowrap">
-                        XXXX-XXXX-{d.aadhaar?.slice(-4)}
+                        {d.aadhaar}
                       </td>
                       <td className="px-5 py-2.5 text-right font-medium text-neutral-900 whitespace-nowrap">{d.quantity}</td>
                     </tr>

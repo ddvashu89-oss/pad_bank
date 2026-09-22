@@ -119,7 +119,7 @@ export default function GivePadsPage() {
             </div>
             <div className="flex justify-between">
               <dt className="text-neutral-500">Aadhaar</dt>
-              <dd className="font-mono text-neutral-900">{lady.aadhaarMasked}</dd>
+              <dd className="font-mono text-neutral-900">{lady.aadhaar}</dd>
             </div>
             <div className="flex justify-between">
               <dt className="text-neutral-500">Available Pads</dt>

@@ -7,11 +7,19 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "api:dev": "nodemon api/src/server.js",
+    "api:seed:admin": "node api/src/utils/seedAdmin.js"
   },
   "dependencies": {
     "axios": "^1.20.0",
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
     "lucide-react": "^1.47.0",
+    "mysql2": "^3.11.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-router-dom": "^7.18.4",
@@ -23,6 +31,7 @@
     "@types/react-dom": "^19.2.7",
     "@vitejs/plugin-react": "^6.1.1",
     "autoprefixer": "^10.6.1",
+    "nodemon": "^3.1.4",
     "oxlint": "^1.81.0",
     "postcss": "^8.5.28",
     "tailwindcss": "^4.3.3",

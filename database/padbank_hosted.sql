@@ -57,5 +57,5 @@ CREATE TABLE IF NOT EXISTS pad_distribution (
 );
 
 -- No seed user is inserted here — bcrypt hashes can't be hand-written correctly.
--- After importing this schema, run `npm run seed:admin` from backend/ to create
+-- After importing this schema, run `npm run api:seed:admin` from frontend/ to create
 -- the first admin account with a properly generated password hash.
